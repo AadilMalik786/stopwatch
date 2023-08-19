@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<link rel="stylesheet" href="/style.css">
+
+<body>
+    
+    <div class="clockcontainer">
+        <h1>stop watch</h1>
+        <div class="imageclock"></div>
+            <div class="baracontainer">
+                <div class="hour"></div>
+                <span>:</span>
+                <div class="minute"></div>
+                <span>:</span>
+                <div class="second"></div>
+            </div>
+
+            <form>
+                <div class="container0">
+                    <!-- <input type="time" class="hour1" >   -->
+                    <input type="text" class="res" id="hour2" max="23" min="00" placeholder="HH" maxlength="2">
+                    <input type="text" class="res" id="minute2" max="59" min="00" placeholder="MM" maxlength="2">
+                    <input type="text" class="res" id="second2" max="59" min="00" placeholder="SS" maxlength="2">
+                    <!-- <button>set</button> -->
+                </div>
+            </form>
+            <div class="container1">
+                <button class="start1">start</button>
+                <button class="stop1">stop</button>
+                <button class="reset1">reset</button>
+            </div>
+            <div class="container2">
+                <button class="alarm1" id="setalarm">set alarm</button>
+                <button class="alarm1" id="stopalarm">stop alarm</button>
+                <button class="alarm1" id="resetalarm">reset alarm</button>
+            </div>
+        </div>
+    <script>
+
+        let span = document.getElementsByTagName("span");
+        // for (let kj of span) {
+        //     kj.style.fontSize = "100px";
+        // }
+
+        let sec = 0;
+        sec = sec + 1;
+        let second = document.querySelector(".second");
+        // second.style.fontSize = "100px";
+        second.textContent = "00";
+
+
+        let min = 0;
+        // min = min + 1;
+        let minute = document.querySelector(".minute");
+        // minute.style.fontSize = "100px";
+        minute.textContent = "00";
+
+        let hr = 0;
+        hr = hr + 1;
+        let hour = document.querySelector(".hour");
+        // hour.style.fontSize = "100px"
+        hour.textContent = "00";
+
+        let start1 = document.querySelector(".start1");
+        // start1.style.fontSize = "50px";
+        // start1.style.backgroundColor = "purple";
+        // start1.style.color = "pink";
+
+        let stop1 = document.querySelector(".stop1");
+        // stop1.style.fontSize = "50px";
+        // stop1.style.backgroundColor = "yellow";
+        // stop1.style.color = "red    ";
+
+        let reset1 = document.querySelector(".reset1");
+        // reset1.style.fontSize = "50px";
+        // reset1.style.backgroundColor = "skyblue";
+        // reset1.style.color = "black";
+
+        let alarm1 = document.querySelectorAll(".alarm1");
+        // for (let bn of alarm1) {
+        //     bn.style.fontSize = "50px";
+        //     bn.style.backgroundColor = "hotpink";
+        // }
+
+
+        let container1 = document.querySelector(".container1");
+        start1.addEventListener("click", start);
+        stop1.addEventListener("click", stop);
+        reset1.addEventListener("click", reset);
+        // ---------------------------------------------------------------------------------
+        //events of alarm 
+        setalarm.addEventListener("click", setalarm1);
+        stopalarm.addEventListener("click", stopalarm1);
+        resetalarm.addEventListener("click", resetalarm1);
+
+
+
+        //start function------------------------------------------------------------------------
+        let interval = null;
+        let audio = document.querySelector(".audio");
+        function timer() {
+            if (sec === 60) {
+                sec = 0;
+                second.textContent = "00";
+                if (minute.textContent < 9) {
+
+                    minute.textContent = "0" + ++min;
+                }
+                else {
+
+                    minute.textContent = ++min;
+                }
+            }
+            if (min === 60) {
+                minute.textContent = "00";
+                if (hour.textContent < 9) {
+                    hour.textContent = "0" + hr++;
+                }
+                else {
+
+                    hour.textContent = hr++;
+                }
+                min = 0;
+                sec = 0;
+            }
+            if (second.textContent < 9) {
+                second.textContent = "0" + sec++;
+            }
+            else {
+                second.textContent = sec++;
+            }
+            // if(min<10) min="0" + min;
+            // if(hr<10) hr="0" + hr;            
+            // second.textContent = sec++;
+
+            if (second.textContent === second2.value && minute.textContent === minute2.value && hour.textContent === hour2.value) {
+                stop();
+                audio = new Audio("/audio/siren.mp3");
+                audio.play();
+            }
+        }
+
+
+        function start() {
+            if (interval) {
+                return;
+            }
+            interval = setInterval(timer, 1000);
+        }
+
+        function stop() {
+            clearInterval(interval);
+            interval = null;
+        }
+        // let second2 = document.getElementById("second2");
+        function reset() {
+            stop();
+            hour.textContent = "00";
+            minute.textContent = "00";
+            second.textContent = "00";
+            hr = 1;
+            min = 0;
+            sec = 0;
+        }
+        // console.log(second.textContent);
+        //events of alarm
+
+        //
+        function stopalarm1() {
+            audio.pause();
+        }
+
+
+        let element = document.createElement("i");
+        element.setAttribute("class", "italic")
+        element.setAttribute("id", "id1")
+        // element.style.position = "absolute";
+        element.style.bottom = "450px";
+        element.style.right = "600px";
+        element.style.fontSize = "40px"
+        element.style.color = "red";
+        if (window.innerWidth <= 768 && window.innerWidth >= 320) {
+            // element.style.position = "absolute";
+            // element.style.bottom = "590px";
+            // element.style.right = "600px";
+            // element.style.backgroundColor="aqua";
+            element.style.fontSize = "30px"
+            element.style.color = "red";
+            element.style.width = "150px"
+            element.style.marginLeft="100px"
+            element.style.marginRight="100px"
+            // element.style.marginTop="-10px"
+            element.style.marginBottom="-10px"
+
+        }
+        function resetalarm1() {
+            let res = document.getElementsByClassName("res");
+            element.style.display = "none";
+            for (let rese of res) {
+                rese.value = "";
+            }
+        }
+        function setalarm1() {
+
+            let form = document.getElementsByTagName("form")[0].getElementsByTagName("div")[0].getElementsByTagName("input")[0].value;
+            let form1 = document.getElementsByTagName("form")[0].getElementsByTagName("div")[0].getElementsByTagName("input")[1].value;
+            let form2 = document.getElementsByTagName("form")[0].getElementsByTagName("div")[0].getElementsByTagName("input")[2].value;
+            let container = document.querySelector(".container0");
+            let imageclock=document.querySelector(".imageclock");
+            let content = imageclock.insertAdjacentElement("afterend", element);
+            content.innerHTML = "Invalid time";
+            if ((form <= 23 && form >= 0) && (form1 <= 59 && form1 >= 0) && (form2 <= 59 && form2 >= 0) && (form != "0" && form1 != "0" && form2 != "0") && (form != "1" && form1 != "1" && form2 != "1") && (form != "2" && form1 != "2" && form2 != "2") && (form != "3" && form1 != "3" && form2 != "3") && (form != "4" && form1 != "4" && form2 != "4") && (form != "5" && form1 != "5" && form2 != "5") && (form != "6" && form1 != "6" && form2 != "6") && (form != "7" && form1 != "7" && form2 != "7") && (form != "8" && form1 != "8" && form2 != "8") && (form != "9" && form1 != "9" && form2 != "9")) {
+                content.style.display = "none";
+            }
+            else {
+                content.style.display = "block";
+            }
+        }
+
+
+    </script>
+
+</body>
+
+</html>
